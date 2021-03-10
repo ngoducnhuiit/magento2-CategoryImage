@@ -1,0 +1,50 @@
+<?php
+/**
+ * link.phtml
+ *
+ * @copyright Copyright © 2021 Magepow. All rights reserved.
+ * @author    Magepow
+ * @category Magepow
+ * @copyright Copyright (c) 2014 Magepow (<https://www.magepow.com>)
+ * @license <https://www.magepow.com/license-agreement.html>
+ * @Author: magepow<support@magepow.com>
+ * @github: <https://github.com/magepow>
+ */
+?>
+
+<?php
+/**
+ * @var $block \Magepow\CategoryImage\Block\Image
+ */
+?>
+<ul class="category-attribute-image">
+<?php
+$baseUrl = $block->getBaseUrlCategory();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
+$categories = $categoryFactory->create()->addAttributeToSelect('*')->addAttributeToFilter('is_active', 1);
+
+foreach ($categories as $value){
+    $category = $objectManager->create('Magento\Catalog\Model\Category')->load($value['entity_id']);
+    if (!empty($category->getMagepow_image())){
+    ?>
+        
+            <li class="item-category-image">
+                <a href="<?php echo $category->getUrl(); ?>" class="category-image-attribute-show">
+                    <img src="<?php echo $baseUrl.$category->getMagepow_image();?>" width="200" height="150">
+                    <div class="name-category"><?php echo $category->getName(); ?></div>
+                </a>
+
+            </li>
+        
+
+<?php }} ?>
+</ul>
+<style type="text/css">
+ .category-attribute-image .item-category-image{
+  float: left;
+    padding: 10px;
+    list-style: none;
+    
+ }
+</style>
